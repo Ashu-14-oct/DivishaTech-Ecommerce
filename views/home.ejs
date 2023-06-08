@@ -1,0 +1,186 @@
+<body>
+  <% if (!locals.seller) { %>
+  <section class="vh-100">
+    <div class="container-fluid h-custom">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-md-9 col-lg-6 col-xl-5">
+          <img src="https://thumbs.dreamstime.com/b/print-173844148.jpg" class="img-fluid" alt="Sample image" />
+        </div>
+        <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
+          <form action="/create-seller" method="post">
+            <div class="form-outline mb-4">
+              <input type="email" name="email" id="form3Example3" class="form-control form-control-lg" placeholder="Enter a valid email address" />
+              <label class="form-label" for="form3Example3">Email address</label>
+            </div>
+
+            <div class="form-outline mb-4">
+              <input type="text" name="businessName" id="form3Example3" class="form-control form-control-lg" placeholder="Enter your business name" />
+              <label class="form-label" for="form3Example3">Business Name</label>
+            </div>
+
+            <div class="form-outline mb-3">
+              <input type="password" name="password" id="form3Example4" class="form-control form-control-lg" placeholder="Enter password" />
+              <label class="form-label" for="form3Example4">Password</label>
+            </div>
+
+            <div class="form-outline mb-3">
+              <input type="password" name="confirmpassword" id="form3Example4" class="form-control form-control-lg" placeholder="Enter password" />
+              <label class="form-label" for="form3Example4">Confirm Password</label>
+            </div>
+
+            <div class="mb-0 w-50 p-2">
+              <button type="submit" class="btn btn-primary">Sign Up</button>
+              <p class="small fw-bold mt-2 pt-1 mb-0">Already have an account? <a href="/seller/sign-in" class="link-danger">Sign In</a></p>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+  <% } else { %>
+    
+  <div class="container">
+    <h1>Welcome to the Dashboard!</h1>
+
+    <!-- Store Information Section -->
+    <h1><%= locals.seller.businessName %></h1>
+    <% if (!locals.storeInfo) { %>
+    <section class="mb-5">
+      <h2>Store Information</h2>
+      <form action="/dashboard/store-info" method="POST">
+        <div class="mb-3">
+          <input type="text" name="businessName" class="form-control" placeholder="Business Name" />
+        </div>
+        <div class="mb-3">
+          <input type="text" name="address" class="form-control" placeholder="Address" />
+        </div>
+        <div class="mb-3">
+          <input type="text" name="gst" class="form-control" placeholder="GST Number" />
+        </div>
+        <div class="mb-3">
+          <input type="text" name="logo" class="form-control" placeholder="Logo URL" />
+        </div>
+        <div class="mb-3">
+          <input type="text" name="storeTimings" class="form-control" placeholder="Store Timings" />
+        </div>
+        <button type="submit" class="btn btn-primary">Save Store Information</button>
+      </form>
+    </section>
+    <% } else {%>
+        <h1>Store info submitted!</h1>
+    <% } %>
+
+    <!-- Category Section -->
+    <section class="mb-5">
+      <h2>Categories</h2>
+      <form action="/dashboard/add-category" method="POST">
+        <div class="input-group mb-3">
+          <input type="text" name="categoryName" class="form-control" placeholder="Category Name" />
+          <button type="submit" class="btn btn-primary">Add Category</button>
+        </div>
+      </form>
+
+      <!-- Display existing categories -->
+      <ul class="list-group">
+        <% categories.forEach(category => { %>
+        <li class="list-group-item"><%= category.categoryName %></li>
+        <% }) %>
+      </ul>
+    </section>
+
+    <!-- Subcategory Section -->
+    <section class="mb-5">
+      <h2>Subcategories</h2>
+
+      <form action="/dashboard/add-subcategory" method="POST">
+        <div class="mb-3">
+          <input type="text" name="subcategoryName" class="form-control" placeholder="Subcategory Name" />
+        </div>
+        <div class="mb-3">
+          <% if (categories.length > 0) { %>
+          <select name="categoryId" class="form-select">
+            <% categories.forEach(category => { %>
+            <option value="<%= category._id %>"><%= category.categoryName %></option>
+            <% }) %>
+            <% } %>
+          </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Add Subcategory</button>
+      </form>
+
+      <!-- Display existing subcategories -->
+      <ul class="list-group">
+        <% subcategories.forEach(subcategory => { %>
+        <li class="list-group-item">
+          <%= subcategory.subcategoryName %>
+        </li>
+        <% }) %>
+      </ul>
+    </section>
+
+    <!-- Inventory Section -->
+    <section>
+      <h2>Inventory</h2>
+      <form action="/dashboard/add-inventory" method="POST">
+        <div class="mb-3">
+          <% if (categories.length > 0) { %> 
+          <select name="categoryId" class="form-select">
+            <% categories.forEach(category => { %>
+            <option value="<%= category._id %>"><%= category.categoryName %></option>
+            <% }) %>
+          </select>
+          <% } %>
+        </div>
+        <div class="mb-3">
+          <% if (subcategories.length > 0) { %> 
+          <select name="subcategoryId" class="form-select">
+            <% subcategories.forEach(subcategory => { %>
+            <option value="<%= subcategory._id %>"><%= subcategory.subcategoryName %></option>
+            <% }) %>
+          </select>
+          <% } %>
+        </div>
+        <div class="mb-3">
+          <input type="text" name="productName" class="form-control" placeholder="Product Name" />
+        </div>
+        <div class="mb-3">
+          <input type="number" name="mrp" class="form-control" placeholder="MRP" />
+        </div>
+        <div class="mb-3">
+          <input type="number" name="sp" class="form-control" placeholder="Selling Price" />
+        </div>
+        <div class="mb-3">
+          <input type="number" name="quantity" class="form-control" placeholder="Quantity" />
+        </div>
+        <div class="mb-3">
+          <input type="text" name="imageUrls" class="form-control" placeholder="Image URLs (comma-separated)" />
+        </div>
+        <button type="submit" class="btn btn-primary">Add Inventory Item</button>
+      </form>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Product Name</th>
+            <th>MRP</th>
+            <th>Selling Price</th>
+            <th>Quantity</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% inventory.forEach(item => { %>
+          <tr>
+            <td><%= item.productName %></td>
+            <td><%= item.mrp %></td>
+            <td><%= item.sp %></td>
+            <td><%= item.quantity %></td>
+          </tr>
+          <% }) %>
+        </tbody>
+    </section>
+  </div>
+  <% } %>
+
+  <!-- Optional JavaScript -->
+  <!-- Bootstrap Bundle with Popper -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>

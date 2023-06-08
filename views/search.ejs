@@ -1,0 +1,16 @@
+<body> 
+    <main>
+        <section>
+          <h1>Search Results</h1>
+          <% if (products.length > 0) { %>
+            <ul>
+              <% products.forEach(product => { %>
+                <li><%= product.productName %></li>
+              <% }) %>
+            </ul>
+          <% } else { %>
+            <p>No products found.</p>
+          <% } %>
+        </section>
+      </main>
+  </body>
