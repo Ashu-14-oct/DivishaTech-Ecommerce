@@ -31,7 +31,7 @@ app.set('layout extractScripts', true);
 
 app.use(
     session({
-      name: "ChatApp",
+      name: "Store",
       secret: "myproject123",
       saveUninitialized: true,
       resave: true,
