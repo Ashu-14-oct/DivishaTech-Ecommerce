@@ -20,7 +20,7 @@ DivishaTech Ecommerce is a web application that allows users to search for produ
 
 ## Installation
 
-1. Clone the repository: `git clone https://github.com/your-username/DivishaTech-Ecommerce.git`
+1. Clone the repository: `git clone https://github.com/Ashu-14-oct/DivishaTech-Ecommerce.git`
 2. Install the dependencies: `npm install`
 3. Start the server: `npm start`
 4. Open your browser and navigate to `http://localhost:3000` to access the application.
